@@ -9723,10 +9723,10 @@ let
 
   JSONValidator = buildPerlPackage {
     pname = "JSON-Validator";
-    version = "3.18";
+    version = "3.23";
     src = fetchurl {
-      url = mirror://cpan/authors/id/J/JH/JHTHORSEN/JSON-Validator-3.18.tar.gz;
-      sha256 = "a62474311b57c0a01ad06a5e340ec10d3723d74fd019304c769ffc7a61b5a47a";
+      url = "mirror://cpan/authors/id/J/JH/JHTHORSEN/JSON-Validator-3.23.tar.gz";
+      sha256 = "1fzy2z7mkg5vgcjvykh5ay8yg6q496wi14x9wp5hc9agplsq7f0s";
     };
     buildInputs = [ TestDeep ];
     propagatedBuildInputs = [ DataValidateDomain DataValidateIP Mojolicious NetIDNEncode YAMLLibYAML ];
@@ -13135,6 +13135,11 @@ let
       url = mirror://cpan/authors/id/A/AB/ABH/Mozilla-CA-20180117.tar.gz;
       sha256 = "f2cc9fbe119f756313f321e0d9f1fac0859f8f154ac9d75b1a264c1afdf4e406";
     };
+
+    postPatch = ''
+      ln -s --force ${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt lib/Mozilla/CA/cacert.pem
+    '';
+
     meta = {
       description = "Mozilla's CA cert bundle in PEM format";
       license = stdenv.lib.licenses.mpl20;
