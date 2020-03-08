@@ -108,7 +108,7 @@ in {
   inherit buildSetupcfg;
 
   inherit (callPackage ../development/interpreters/python/hooks { })
-    eggUnpackHook eggBuildHook eggInstallHook flitBuildHook pipBuildHook pipInstallHook pytestCheckHook pythonCatchConflictsHook pythonImportsCheckHook pythonRemoveBinBytecodeHook setuptoolsBuildHook setuptoolsCheckHook venvShellHook wheelUnpackHook;
+    eggUnpackHook eggBuildHook eggInstallHook flitBuildHook pipBuildHook pipInstallHook pytestCheckHook pythonCatchConflictsHook pythonImportsCheckHook pythonRemoveBinBytecodeHook pythonRemoveTestsDirHook setuptoolsBuildHook setuptoolsCheckHook venvShellHook wheelUnpackHook;
 
   # helpers
 
@@ -121,7 +121,10 @@ in {
 
   recursivePthLoader = callPackage ../development/python-modules/recursive-pth-loader { };
 
-  setuptools = callPackage ../development/python-modules/setuptools { };
+  setuptools = if isPy27 then
+    callPackage ../development/python-modules/setuptools/44.0.nix { }
+  else
+    callPackage ../development/python-modules/setuptools { };
 
   vowpalwabbit = callPackage ../development/python-modules/vowpalwabbit { };
 
@@ -187,7 +190,7 @@ in {
 
   argon2_cffi = callPackage ../development/python-modules/argon2_cffi { };
 
-  aria2p = callPackage ../development/python-modules/aria2p { inherit (pkgs) aria2 poetry; };
+  aria2p = callPackage ../development/python-modules/aria2p { inherit (pkgs) aria2; };
 
   arviz = callPackage ../development/python-modules/arviz { };
 
@@ -807,6 +810,8 @@ in {
 
   jira = callPackage ../development/python-modules/jira { };
 
+  jsonpath = callPackage ../development/python-modules/jsonpath { };
+
   junit-xml = callPackage ../development/python-modules/junit-xml { };
 
   junitparser = callPackage ../development/python-modules/junitparser { };
@@ -880,6 +885,8 @@ in {
   mpi4py = callPackage ../development/python-modules/mpi4py {
     mpi = pkgs.openmpi;
   };
+
+  python-mpv-jsonipc = callPackage ../development/python-modules/python-mpv-jsonipc { };
 
   msal = callPackage ../development/python-modules/msal { };
 
@@ -978,6 +985,8 @@ in {
   pdftotext = callPackage ../development/python-modules/pdftotext { };
 
   pdfx = callPackage ../development/python-modules/pdfx { };
+
+  pushover-complete = callPackage ../development/python-modules/pushover-complete { };
 
   pyicloud = callPackage ../development/python-modules/pyicloud { };
 
@@ -1370,6 +1379,8 @@ in {
   salmon-mail = callPackage ../development/python-modules/salmon-mail { };
 
   sanic-auth = callPackage ../development/python-modules/sanic-auth { };
+
+  sapi-python-client = callPackage ../development/python-modules/sapi-python-client { };
 
   seekpath = callPackage ../development/python-modules/seekpath { };
 
@@ -4892,7 +4903,7 @@ in {
   protobuf = callPackage ../development/python-modules/protobuf {
     disabled = isPyPy;
     doCheck = !isPy3k;
-    protobuf = pkgs.protobuf;
+    protobuf = pkgs.protobuf3_8;
   };
 
   psd-tools = callPackage ../development/python-modules/psd-tools { };
@@ -6653,6 +6664,7 @@ in {
   zerobin = callPackage ../development/python-modules/zerobin { };
 
   tensorflow-estimator = callPackage ../development/python-modules/tensorflow-estimator { };
+  tensorflow-estimator_1_15_1 = callPackage ../development/python-modules/tensorflow-estimator/1_15_1.nix { };
 
   tensorflow-probability = callPackage ../development/python-modules/tensorflow-probability { };
 
@@ -6671,7 +6683,7 @@ in {
     cudatoolkit = pkgs.cudatoolkit_10;
     cudnn = pkgs.cudnn_cudatoolkit_10;
     nccl = pkgs.nccl_cudatoolkit_10;
-    openssl = pkgs.openssl_1_0_2;
+    openssl = pkgs.openssl_1_1;
     inherit (pkgs.darwin.apple_sdk.frameworks) Foundation Security;
   };
 

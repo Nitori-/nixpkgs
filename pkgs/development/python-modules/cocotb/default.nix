@@ -39,7 +39,7 @@ buildPythonPackage rec {
 
   meta = with stdenv.lib; {
     description = "Coroutine based cosimulation library for writing VHDL and Verilog testbenches in Python";
-    homepage = https://github.com/cocotb/cocotb;
+    homepage = "https://github.com/cocotb/cocotb";
     license = licenses.bsd3;
     maintainers = with maintainers; [ matthuszagh ];
   };
